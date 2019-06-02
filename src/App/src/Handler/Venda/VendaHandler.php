@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\Venda;
 
+use Core\Handler\MainHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\View\Model\ViewModel;
 
 
-class IndexHandler implements RequestHandlerInterface
+class VendaHandler extends MainHandler
 {
     private $template;
+
     public function __construct(
         TemplateRendererInterface $template = null
     ) {
@@ -23,6 +23,6 @@ class IndexHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return new HtmlResponse($this->template->render('app::index'));
+        return new HtmlResponse($this->template->render('app::venda'));
     }
 }

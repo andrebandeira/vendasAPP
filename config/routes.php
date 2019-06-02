@@ -33,7 +33,15 @@ use Zend\Expressive\MiddlewareFactory;
  * );
  */
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
-    $app->get('/', \App\Handler\IndexHandler::class);
-    $app->get('/registro', \App\Handler\IndexHandler::class);
-    $app->get('/login', \App\Handler\IndexHandler::class);
+    $app->get('/', \App\Handler\Login\LoginHandler::class);
+    $app->post('/logar', \App\Handler\Login\LogarHandler::class);
+
+    $app->post('/vendedor', \App\Handler\Vendedor\VendedorHandler::class);
+    $app->post('/cadastrarVendedor', \App\Handler\Vendedor\CadastrarVendedorHandler::class);
+    $app->post('/buscarTodosVendedores', \App\Handler\Vendedor\BuscarTodosVendedoresHandler::class);
+
+    $app->post('/venda', \App\Handler\Venda\VendaHandler::class);
+    $app->post('/lancarVenda', \App\Handler\Venda\LancarVendaHandler::class);
+    $app->post('/buscarTodasVendas', \App\Handler\Venda\BuscarTodasVendasHandler::class);
+
 };

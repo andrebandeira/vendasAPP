@@ -1,0 +1,182 @@
+<div class="grid-form">
+    <div class="grid-form1">
+        <h3 id="forms-horizontal">Lançar Venda</h3>
+        <form id="form-venda" class="form-horizontal" onsubmit="return false">
+            <div class="form-group">
+                <label for="id-venda" class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                    <select name="id-venda" id="id-venda" class="form-control1">
+                        <option name="novo">Novo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id-vendedor" class="col-sm-2 control-label">Vendedor</label>
+                <div class="col-sm-10">
+                    <select name="id-vendedor" id="id-vendedor" class="form-control1">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="valor-venda" class="col-sm-2 control-label hor-form">Valor</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="valor-venda" name="valor-venda" placeholder="Valor" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="lancar-venda" class="btn-primary btn">Lançar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="grid-form">
+    <div class="grid-form1">
+        <h3 id="forms-horizontal">Lista de Vendas</h3>
+        <table id="lista-vendas" class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Data da Venda</th>
+                <th scope="col">Valor da Venda</th>
+                <th scope="col">Comissão</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $( document ).ready(function() {
+        var vendas = {};
+        var vendedores = [];
+
+        function isInArray(value, array) {
+            return array.indexOf(value) > -1;
+        }
+
+        $('#form-venda').submit(function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let data = form.serialize();
+            $.ajax({
+                type: "post",
+                url: "lancarVenda",
+                data: data,
+                success: function (data) {
+                    form[0].reset();
+                    alert('Venda Cadastrado com Sucesso.');
+                    buscarVendas();
+                },
+                error: function (error) {
+                    alert(error.responseJSON.error)
+
+                }
+            });
+        });
+
+        $("#id-venda").change(function () {
+            let select = $("#id-venda");
+
+            let venda = vendas[select.val()];
+
+            $("#valor-venda").val(venda.valor);
+
+            select = $("#id-vendedor");
+
+            let descricao = venda.nome + " (" + venda.email + ")";
+
+            let vendedor = vendedores[descricao];
+
+            select.find('option').prop('selected', false);
+            select.find('option[value="' + vendedor.id + '"]').prop('selected', true);
+        });
+
+        $(document).on("click", "#lista-vendas tbody tr", function () {
+            let tr = $(this);
+            let td = tr.find(".id");
+
+            let select = $("#id-venda");
+
+
+            select.find('option').prop('selected', false);
+            select.find('option[value="' + td.text() + '"]').prop('selected', true);
+            select.change();
+        });
+
+        function buscarVendas() {
+            let lista = $("#lista-vendas > tbody");
+            let select = $("#id-venda");
+            lista.empty();
+            select.empty();
+            select.append(new Option('Nova', 'Nova'));
+
+            function inserirVenda(element, index, array) {
+                let linha = "<tr>";
+                linha += "<td class='id'>" + element.id + "</td>";
+                linha += "<td>" + element.nome + "</td>";
+                linha += "<td>" + element.email + "</td>";
+                linha += "<td>" + element.data + "</td>";
+                linha += "<td>" + element.valor + "</td>";
+                linha += "<td>" + element.comissao + "</td>";
+                linha += "</tr>";
+                lista.append(linha);
+
+                vendas[element.id] = element;
+
+                select.append(new Option(element.id, element.id));
+            }
+
+            $.ajax({
+                type: "post",
+                url: "buscarTodasVendas",
+                success: function (data) {
+                    data = data.data[0];
+                    data.forEach(inserirVenda);
+                },
+                error: function (error) {
+                    alert(error.responseJSON.error)
+
+                }
+            });
+        }
+
+        buscarVendas();
+
+        function buscarVendedores() {
+            let select = $("#id-vendedor");
+            select.empty();
+            select.append(new Option('', ''));
+
+            function inserirVendedor(element, index, array) {
+                let select = $("#id-vendedor");
+                let descricao = element.nome + " (" + element.email + ")";
+
+                vendedores[descricao] = element;
+                select.append(new Option(descricao, element.id));
+            }
+
+            $.ajax({
+                type: "post",
+                url: "buscarTodosVendedores",
+                success: function (data) {
+                    data = data.data[0];
+                    data.forEach(inserirVendedor);
+                },
+                error: function (error) {
+                    alert(error.responseJSON.error)
+
+                }
+            });
+        }
+
+        buscarVendedores();
+    });
+</script>

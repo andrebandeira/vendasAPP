@@ -1,3 +1,4 @@
+
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -16,37 +17,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="../../../../vendor/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom Theme files -->
     <link href="../../../../vendor/css/style.css" rel='stylesheet' type='text/css' />
-    <link href="../../../../css/main.css" rel='stylesheet' type='text/css' />
     <link href="../../../../vendor/css/font-awesome.css" rel="stylesheet">
     <script src="../../../../vendor/js/jquery.min.js"> </script>
     <script src="../../../../vendor/js/bootstrap.min.js"> </script>
-
-    <!-- Mainly scripts -->
-    <script src="../../../../vendor/js/jquery.metisMenu.js"></script>
-    <script src="../../../../vendor/js/jquery.slimscroll.min.js"></script>
-    <!-- Custom and plugin javascript -->
-    <link href="../../../../vendor/css/custom.css" rel="stylesheet">
-    <script src="../../../../vendor/js/custom.js"></script>
-    <script src="../../../../vendor/js/screenfull.js"></script>
-    <script>
-        $(function () {
-            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
-            if (!screenfull.enabled) {
-                return false;
-            }
-
-
-
-            $('#toggle').click(function () {
-                screenfull.toggle($('#container')[0]);
-            });
-
-
-
-        });
-    </script>
-
 </head>
 <body>
 <div id="conteudo">
@@ -54,7 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <h1><a href="index.html">Gestão de Vendas</a></h1>
         <div class="login-bottom">
             <h2>Login</h2>
-            <form id="form-login" onsubmit="return false">
+            <form id="form-login">
                 <div class="col-md-6">
                     <div class="login-mail">
                         <input id="email" name="email" type="text" placeholder="Email" required="">
@@ -65,13 +38,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <i class="fa fa-lock"></i>
                     </div>
                 </div>
-                <div class="col-md-6 login-do">
-                    <label class="hvr-shutter-in-horizontal login-sub">
-                        <input id="entrar" type="submit" value="Entrar">
-                    </label>
-                </div>
             </form>
-
+            <div class="col-md-6 login-do">
+                <label class="hvr-shutter-in-horizontal login-sub">
+                    <input id="entrar" type="submit" value="Entrar">
+                </label>
+            </div>
 
             <div class="clearfix"> </div>
         </div>
@@ -86,29 +58,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="../../../../vendor/js/jquery.nicescroll.js"></script>
 <script src="../../../../vendor/js/scripts.js"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'token': ''
-        }
-    });
-
-    $('#form-login').submit(function(event){
-        event.preventDefault();
-        let data = $(this).serialize();
-
+    $("#entrar").click(function () {
+        let data = $( "#form-login" ).serialize();
+        console.log(data);
         $.ajax({
             type: "post",
             url: "logar",
+            dataType: "json",
             data : data,
+            ContentType: "application/json",
             success: function (data) {
-                $("#conteudo").html(data);
+                console.log(data);
             },
-            error: function (error) {
-                alert(error.responseJSON.error)
-
+            error: function (data) {
+                console.log(data);
             }
         });
-    });
+
+    })
 </script>
 <!--//scrolling js-->
 </body>

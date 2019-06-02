@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\Login;
 
+use Core\Handler\MainHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class RegistroHandler implements RequestHandlerInterface
+
+class LoginHandler extends MainHandler
 {
     private $template;
+
     public function __construct(
         TemplateRendererInterface $template = null
     ) {
@@ -21,6 +23,6 @@ class RegistroHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return new HtmlResponse($this->template->render('app::registro'));
+        return new HtmlResponse($this->template->render('app::login'));
     }
 }
