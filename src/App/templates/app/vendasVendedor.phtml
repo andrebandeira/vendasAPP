@@ -25,11 +25,12 @@
     </div><!-- /.modal-dialog -->
     <script>
         $( document ).ready(function() {
-            $('#myModal').modal('show');
+            let modal = $('#myModal');
+            modal.modal('show');
 
-            $('#myModal').on('hidden.bs.modal', function () {
+            modal.on('hidden.bs.modal', function () {
                 $('#myModal').remove();
-            })
+            });
 
             function buscarVendas() {
                 let lista = $("#lista-vendas > tbody");

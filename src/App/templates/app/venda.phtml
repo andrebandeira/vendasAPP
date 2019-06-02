@@ -117,34 +117,43 @@
 
             let venda = vendas[select.val()];
 
-            $("#valor-venda").val(venda.valor);
+            if (venda) {
+                $("#valor-venda").val(venda.valor);
+                select = $("#id-vendedor");
 
-            select = $("#id-vendedor");
+                let descricao = venda.nome + " (" + venda.email + ")";
 
-            let descricao = venda.nome + " (" + venda.email + ")";
+                let vendedor = vendedores[descricao];
 
-            let vendedor = vendedores[descricao];
+                select.find('option').prop('selected', false);
+                select.find('option[value="' + vendedor.id + '"]').prop('selected', true);
 
-            select.find('option').prop('selected', false);
-            select.find('option[value="' + vendedor.id + '"]').prop('selected', true);
+            } else {
+                $("#valor-venda").val('');
+
+                select.find('option').prop('selected', false);
+                select.find('option[value=\'\']').prop('selected', true);
+            }
         });
 
-        $(document).on("click", "#lista-vendas tbody tr", function () {
-            let tr = $(this);
-            let table = tr.parents("table");
-            let alltrs = table.find("tr");
-            alltrs.removeClass("selected");
-            tr.addClass("selected")
+        function adicionarEventoSelecionarLinha() {
+            $("#lista-vendas tbody tr").click(function () {
+                let tr = $(this);
+                let table = tr.parents("table");
+                let alltrs = table.find("tr");
+                alltrs.removeClass("selected");
+                tr.addClass("selected");
 
-            let td = tr.find(".id");
+                let td = tr.find(".id");
 
-            let select = $("#id-venda");
+                let select = $("#id-venda");
 
 
-            select.find('option').prop('selected', false);
-            select.find('option[value="' + td.text() + '"]').prop('selected', true);
-            select.change();
-        });
+                select.find('option').prop('selected', false);
+                select.find('option[value="' + td.text() + '"]').prop('selected', true);
+                select.change();
+            });
+        }
 
         function buscarVendas() {
             let lista = $("#lista-vendas > tbody");
@@ -183,6 +192,7 @@
                 success: function (data) {
                     data = data.data;
                     data.forEach(inserirVenda);
+                    adicionarEventoSelecionarLinha();
                 },
                 error: function (error) {
                     error = error.responseJSON.error;

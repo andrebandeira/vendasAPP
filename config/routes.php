@@ -48,4 +48,9 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->post('/buscarVendasVendedor', \App\Handler\VendasVendedor\BuscarVendasVendedorHandler::class);
 
 
+    $app->post('/configuracao', \App\Handler\Configuracao\ConfiguracaoHandler::class);
+    $app->post('/buscarEmail', \App\Handler\Configuracao\BuscarEmailHandler::class);
+    $app->post('/atualizarEmail', \App\Handler\Configuracao\AtualizarEmailHandler::class);
+
+
 };

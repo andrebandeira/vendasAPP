@@ -1,0 +1,75 @@
+<div class="grid-form">
+    <div class="grid-form1">
+        <h3 id="forms-horizontal">Relatório</h3>
+        <form id="form-relatorio" class="form-horizontal" onsubmit="return false">
+            <div class="form-group">
+                <label for="email-relatorio" class="col-sm-2 control-label hor-form">Email Destino</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="email-relatorio" name="email-relatorio" placeholder="Email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="atualizar-email" class="btn-primary btn">Atualizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $( document ).ready(function() {
+        $('#form-relatorio').submit(function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let data = form.serialize();
+
+            $.ajax({
+                type: "post",
+                url: "atualizarEmail",
+                data: data,
+                success: function (data) {
+                    form[0].reset();
+                    alert('Email Atualizado com Sucesso.');
+                    buscarEmail();
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        });
+
+        function buscarEmail() {
+            $.ajax({
+                type: "post",
+                url: "buscarEmail",
+                success: function (data) {
+                    $("#email-relatorio").val(data.data);
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        }
+
+        buscarEmail();
+    });
+</script>

@@ -25,6 +25,9 @@
                         <li>
                             <a id="lancar-venda" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Vendas</span></a>
                         </li>
+                        <li>
+                            <a id="configuracao" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Configurações</span></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -69,12 +72,25 @@
                 }
             }
         });
-    })
+    });
 
     $("#lancar-venda").click(function () {
         $.ajax({
             type: "post",
             url: "venda",
+            success: function (data) {
+                $(".content-main").html(data);
+            },
+            error: function (error) {
+                alert(error.responseJSON.error)
+            }
+        });
+    });
+
+    $("#configuracao").click(function () {
+        $.ajax({
+            type: "post",
+            url: "configuracao",
             success: function (data) {
                 $(".content-main").html(data);
             },
