@@ -112,6 +112,11 @@
 
         $(document).on("click", "#lista-vendas tbody tr", function () {
             let tr = $(this);
+            let table = tr.parents("table");
+            let alltrs = table.find("tr");
+            alltrs.removeClass("selected");
+            tr.addClass("selected")
+
             let td = tr.find(".id");
 
             let select = $("#id-venda");

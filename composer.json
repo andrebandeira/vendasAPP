@@ -38,7 +38,7 @@
         "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "firebase/php-jwt": "^4.0",
         "zendframework/zend-component-installer": "^2.1.1",
         "zendframework/zend-config-aggregator": "^1.0",

@@ -63,6 +63,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Email</th>
                 <th scope="col">Comissão no Período</th>
+                <th scope="col">Vendas</th>
             </tr>
             </thead>
             <tbody>
@@ -104,6 +105,11 @@
 
         $(document).on("click", "#lista-vendedores tbody tr", function () {
             let tr = $(this);
+            let table = tr.parents("table");
+            let alltrs = table.find("tr");
+            alltrs.removeClass("selected");
+            tr.addClass("selected");
+
             let td = tr.find(".id");
 
             let select = $("#id-vendedor");
@@ -111,6 +117,20 @@
             select.find('option').prop('selected', false);
             select.find('option[value="' + td.text() + '"]').prop('selected', true);
             select.change();
+        });
+
+        $(document).on("click", ".mostrar-vendas", function (e) {
+            $.ajax({
+                type: "post",
+                url: "vendasVendedor",
+                success: function (data) {
+                    $("#myModal").modal('hide');
+                    $(".content-support").html(data);
+                },
+                error: function (error) {
+                    alert(error.responseJSON.error);
+                }
+            });
         });
 
         function buscarVendedores() {
@@ -126,6 +146,7 @@
                 linha += "<td>" + element.nome + "</td>";
                 linha += "<td>" + element.email + "</td>";
                 linha += "<td>" + element.comissao + "</td>";
+                linha += "<td>" + "<a class='mostrar-vendas'>Mostrar</a>"  + "</td>";
                 linha += "</tr>";
                 lista.append(linha);
 

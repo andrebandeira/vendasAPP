@@ -1,0 +1,80 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btl-launchModal" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="modal-title">Vendas no Período</h2>
+            </div>
+            <div class="modal-body">
+                <table id="lista-vendas" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Data da Venda</th>
+                        <th scope="col">Valor da Venda</th>
+                        <th scope="col">Comissão</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <script>
+        $( document ).ready(function() {
+            $('#myModal').modal('show');
+
+            $('#myModal').on('hidden.bs.modal', function () {
+                $('#myModal').remove();
+            })
+
+            function buscarVendas() {
+                let lista = $("#lista-vendas > tbody");
+                lista.empty();
+
+                function inserirVenda(element, index, array) {
+                    let linha = "<tr>";
+                    linha += "<td class='id'>" + element.id + "</td>";
+                    linha += "<td>" + element.nome + "</td>";
+                    linha += "<td>" + element.email + "</td>";
+                    linha += "<td>" + element.data + "</td>";
+                    linha += "<td>" + element.valor + "</td>";
+                    linha += "<td>" + element.comissao + "</td>";
+                    linha += "</tr>";
+                    lista.append(linha);
+                }
+
+                let dataInicio = $("#data-inicio").val();
+                let dataFim = $("#data-fim").val();
+                let vendedor = $("tr.selected").find(".id").text();
+
+                let data = {
+                    "data-inicio": dataInicio,
+                    "data-fim": dataFim,
+                    "vendedor": vendedor
+                };
+
+                $.ajax({
+                    type: "post",
+                    url: "buscarVendasVendedor",
+                    data: data,
+                    success: function (data) {
+                        data = data.data;
+                        data.forEach(inserirVenda);
+                    },
+                    error: function (error) {
+                        alert(error.responseJSON.error)
+
+                    }
+                });
+            }
+
+            buscarVendas();
+        });
+
+
+    </script>
+</div>

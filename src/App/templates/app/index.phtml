@@ -20,10 +20,10 @@
                             <a id="dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboard</span></a>
                         </li>
                         <li>
-                            <a id="cadastrar-vendedor" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Cadastrar Vendedor</span></a>
+                            <a id="cadastrar-vendedor" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Vendedores</span></a>
                         </li>
                         <li>
-                            <a id="lancar-venda" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Lançar Venda</span></a>
+                            <a id="lancar-venda" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Vendas</span></a>
                         </li>
                     </ul>
                 </div>
@@ -31,6 +31,9 @@
     </nav>
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="content-main">
+
+        </div>
+        <div class="content-support">
 
         </div>
     </div>
@@ -49,7 +52,9 @@
             type: "post",
             url: "vendedor",
             success: function (data) {
-                $(".content-main").html(data);
+                let content =  $(".content-main");
+                content.empty();
+                content.html(data);
             },
             error: function (error) {
                 alert(error.responseJSON.error)

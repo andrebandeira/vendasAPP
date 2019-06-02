@@ -1,11 +1,27 @@
 .copy-right{
-    padding-top: 0;
+    padding-top: 0.5rem;
 }
 
 .content-main {
-    min-height: 56rem;
+    min-height: 57rem;
 }
 
 .filtro-periodo {
     padding-top: 2rem;
+}
+
+.table tbody tr {
+    cursor: pointer;
+}
+
+.table tbody tr.selected  {
+    background-color: #eaf0f1;
+}
+
+.table tbody tr:hover{
+    background-color: #f1f7f8;
+}
+
+#page-wrapper {
+    margin-top: -5rem !important;
 }
