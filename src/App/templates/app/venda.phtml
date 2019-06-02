@@ -37,6 +37,17 @@
 <div class="grid-form">
     <div class="grid-form1">
         <h3 id="forms-horizontal">Lista de Vendas</h3>
+        <div class="col-md-3 form-group1 group-mail">
+            <label class="control-label ">Data Inicial</label>
+            <input type="date" id="data-inicio" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date" required="">
+        </div>
+        <div class="col-offset-2 col-md-3 form-group1 group-mail">
+            <label class="control-label ">Data Final</label>
+            <input type="date" id="data-fim" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date" required="">
+        </div>
+        <div class="col-sm-offset-2 col-2 filtro-periodo" >
+            <button id="buscar-vendas" class="btn-primary btn">Buscar</button>
+        </div>
         <table id="lista-vendas" class="table">
             <thead>
             <tr>
@@ -134,11 +145,19 @@
                 select.append(new Option(element.id, element.id));
             }
 
+            let dataInicio = $("#data-inicio").val();
+            let dataFim = $("#data-fim").val();
+            let data = {
+                "data-inicio": dataInicio,
+                "data-fim": dataFim,
+            };
+
             $.ajax({
                 type: "post",
                 url: "buscarTodasVendas",
+                data: data,
                 success: function (data) {
-                    data = data.data[0];
+                    data = data.data;
                     data.forEach(inserirVenda);
                 },
                 error: function (error) {
@@ -149,6 +168,10 @@
         }
 
         buscarVendas();
+
+        $('#buscar-vendas').click(function (event) {
+            buscarVendas();
+        });
 
         function buscarVendedores() {
             let select = $("#id-vendedor");
@@ -167,7 +190,7 @@
                 type: "post",
                 url: "buscarTodosVendedores",
                 success: function (data) {
-                    data = data.data[0];
+                    data = data.data;
                     data.forEach(inserirVendedor);
                 },
                 error: function (error) {
