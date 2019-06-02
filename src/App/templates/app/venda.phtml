@@ -69,26 +69,45 @@
         var vendas = {};
         var vendedores = [];
 
-        function isInArray(value, array) {
-            return array.indexOf(value) > -1;
-        }
+        $('#valor-venda').mask('000.000.000.000.000,00', {reverse: true});
 
         $('#form-venda').submit(function (event) {
             event.preventDefault();
             let form = $(this);
             let data = form.serialize();
+
+            let idVendedor = $("#id-vendedor").val();
+
+            if (idVendedor == "") {
+                alert("Vendedor não informado. Verifique!");
+                return;
+            }
+
             $.ajax({
                 type: "post",
                 url: "lancarVenda",
                 data: data,
                 success: function (data) {
+                    let id = $("#id-venda").val();
                     form[0].reset();
-                    alert('Venda Cadastrado com Sucesso.');
+                    if (id === 'Nova') {
+                        alert('Venda Cadastrada com Sucesso.');
+                    } else {
+                        alert('Venda Atualizada com Sucesso.');
+                    }
                     buscarVendas();
                 },
                 error: function (error) {
-                    alert(error.responseJSON.error)
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
 
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
                 }
             });
         });
@@ -166,8 +185,16 @@
                     data.forEach(inserirVenda);
                 },
                 error: function (error) {
-                    alert(error.responseJSON.error)
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
 
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
                 }
             });
         }
@@ -199,8 +226,16 @@
                     data.forEach(inserirVendedor);
                 },
                 error: function (error) {
-                    alert(error.responseJSON.error)
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
 
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
                 }
             });
         }

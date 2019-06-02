@@ -17,7 +17,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Custom Theme files -->
     <link href="../../../../vendor/css/style.css" rel='stylesheet' type='text/css' />
     <link href="../../../../css/main.css" rel='stylesheet' type='text/css' />
+    <link href="../../../../css/alertify.css" rel='stylesheet' type='text/css' />
     <link href="../../../../vendor/css/font-awesome.css" rel="stylesheet">
+    <link href="../../../../vendor/alertify/css/alertify.min.css" rel="stylesheet">
+    <link href="../../../../vendor/alertify/css/themes/bootstrap.min.css" rel="stylesheet">
+
     <script src="../../../../vendor/js/jquery.min.js"> </script>
     <script src="../../../../vendor/js/bootstrap.min.js"> </script>
 
@@ -85,6 +89,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--scrolling js-->
 <script src="../../../../vendor/js/jquery.nicescroll.js"></script>
 <script src="../../../../vendor/js/scripts.js"></script>
+<script src="../../../../vendor/alertify/alertify.min.js"></script>
+<script src="../../../../vendor/jquery.mask/jquery.mask.min.js"></script>
+
+<script src="../../../../js/main.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -104,8 +112,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 $("#conteudo").html(data);
             },
             error: function (error) {
-                alert(error.responseJSON.error)
+                error = error.responseJSON.error;
+                if (error.indexOf("Login") > 0) {
+                    function reload() {
+                        window.location.reload();
+                    }
 
+                    alert(error, reload);
+                } else {
+                    alert(error);
+                }
             }
         });
     });

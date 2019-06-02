@@ -76,6 +76,15 @@
         var vendedores = {};
         $('#form-vendedor').submit(function (event) {
             event.preventDefault();
+
+            let senhaVendedor = $("#senha-vendedor").val();
+            let senhaVendedorConfirmacao = $("#senha-vendedor-confirmacao").val();
+
+            if (senhaVendedor != senhaVendedorConfirmacao) {
+                alert("As senhas estão diferentes. Verifique!");
+                return;
+            }
+
             let form = $(this);
             let data = form.serialize();
             $.ajax({
@@ -83,13 +92,26 @@
                 url: "cadastrarVendedor",
                 data: data,
                 success: function (data) {
+                    let id = $("#id-vendedor").val();
                     form[0].reset();
-                    alert('Vendedor Cadastrado com Sucesso.');
+                    if (id === 'Novo') {
+                        alert('Vendedor Cadastrado com Sucesso.');
+                    } else {
+                        alert('Vendedor Atualizado com Sucesso.');
+                    }
                     buscarVendedores();
                 },
                 error: function (error) {
-                    alert(error.responseJSON.error)
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
 
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
                 }
             });
         });
@@ -103,35 +125,48 @@
             $("#email-vendedor").val(vendedor.email);
         });
 
-        $(document).on("click", "#lista-vendedores tbody tr", function () {
-            let tr = $(this);
-            let table = tr.parents("table");
-            let alltrs = table.find("tr");
-            alltrs.removeClass("selected");
-            tr.addClass("selected");
+        function adicionarEventoSelecionarLinha() {
+            $("#lista-vendedores tbody tr").click(function () {
+                let tr = $(this);
+                let table = tr.parents("table");
+                let alltrs = table.find("tr");
+                alltrs.removeClass("selected");
+                tr.addClass("selected");
 
-            let td = tr.find(".id");
+                let td = tr.find(".id");
 
-            let select = $("#id-vendedor");
+                let select = $("#id-vendedor");
 
-            select.find('option').prop('selected', false);
-            select.find('option[value="' + td.text() + '"]').prop('selected', true);
-            select.change();
-        });
+                select.find('option').prop('selected', false);
+                select.find('option[value="' + td.text() + '"]').prop('selected', true);
+                select.change();
+            })
+        }
 
-        $(document).on("click", ".mostrar-vendas", function (e) {
-            $.ajax({
-                type: "post",
-                url: "vendasVendedor",
-                success: function (data) {
-                    $("#myModal").modal('hide');
-                    $(".content-support").html(data);
-                },
-                error: function (error) {
-                    alert(error.responseJSON.error);
-                }
-            });
-        });
+        function adicionarEventoMostrarVendas() {
+            $(".mostrar-vendas").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "vendasVendedor",
+                    success: function (data) {
+                        $("#myModal").modal('hide');
+                        $(".content-support").html(data);
+                    },
+                    error: function (error) {
+                        error = error.responseJSON.error;
+                        if (error.indexOf("Login") > 0) {
+                            function reload() {
+                                window.location.reload();
+                            }
+
+                            alert(error, reload);
+                        } else {
+                            alert(error);
+                        }
+                    }
+                });
+            })
+        }
 
         function buscarVendedores() {
             let lista = $("#lista-vendedores > tbody");
@@ -170,10 +205,20 @@
                 success: function (data) {
                     data = data.data;
                     data.forEach(inserirVendedor);
+                    adicionarEventoSelecionarLinha();
+                    adicionarEventoMostrarVendas();
                 },
                 error: function (error) {
-                    alert(error.responseJSON.error)
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
 
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
                 }
             });
         }

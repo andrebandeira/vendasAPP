@@ -66,8 +66,16 @@
                         data.forEach(inserirVenda);
                     },
                     error: function (error) {
-                        alert(error.responseJSON.error)
+                        error = error.responseJSON.error;
+                        if (error.indexOf("Login") > 0) {
+                            function reload() {
+                                window.location.reload();
+                            }
 
+                            alert(error, reload);
+                        } else {
+                            alert(error);
+                        }
                     }
                 });
             }

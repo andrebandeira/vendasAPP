@@ -1,0 +1,49 @@
+/* Estilizando alertify */
+
+.alertify .ajs-dimmer {
+    opacity: 0.8;
+}
+.ajs-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.alertify .ajs-header {
+    text-align: center;
+    background-color: #535353 !important;
+    padding: 10px !important;
+    color: #FFF !important;
+}
+
+.ajs-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.ajs-buttons button {
+    flex-grow: 1;
+    cursor: pointer;
+    background-color: #757575;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: #FFF;
+    transition: background-color .2s;
+}
+
+.ajs-buttons button:hover {
+    background-color: #535353;
+}
+
+.ajs-buttons button:active {
+    background-color: #e0e0e0;
+}
+
+.alertify .ajs-dimmer, .alertify .ajs-modal{
+    z-index: 5000;
+}
+
+.alertify-notifier {
+    z-index: 4500;
+}
