@@ -50,7 +50,7 @@
         }
     });
 
-    $("#dashboard").click(function () {
+    function openDashboard () {
         $.ajax({
             type: "post",
             url: "dashboard",
@@ -70,6 +70,9 @@
                 }
             }
         });
+    }
+    $("#dashboard").click(function () {
+        openDashboard();
     });
 
     $("#cadastrar-vendedor").click(function () {
@@ -138,5 +141,7 @@
                 }
             }
         });
-    })
+    });
+
+    openDashboard();
 </script>
