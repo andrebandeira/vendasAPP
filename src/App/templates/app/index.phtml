@@ -17,16 +17,16 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a id="dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboard</span></a>
+                            <a id="dashboard" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon "></i><span class="nav-label">Dashboard</span></a>
                         </li>
                         <li>
-                            <a id="cadastrar-vendedor" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Vendedores</span></a>
+                            <a id="cadastrar-vendedor" class="hvr-bounce-to-right"><i class="fa fa-user nav_icon "></i><span class="nav-label">Vendedores</span></a>
                         </li>
                         <li>
-                            <a id="lancar-venda" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Vendas</span></a>
+                            <a id="lancar-venda" class="hvr-bounce-to-right"><i class="fa fa-shopping-cart nav_icon "></i><span class="nav-label">Vendas</span></a>
                         </li>
                         <li>
-                            <a id="configuracao" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Configurações</span></a>
+                            <a id="configuracao" class="hvr-bounce-to-right"><i class="fa fa-gears nav_icon "></i><span class="nav-label">Configurações</span></a>
                         </li>
                     </ul>
                 </div>
@@ -48,6 +48,28 @@
         headers: {
             'token': token
         }
+    });
+
+    $("#dashboard").click(function () {
+        $.ajax({
+            type: "post",
+            url: "dashboard",
+            success: function (data) {
+                $(".content-main").html(data);
+            },
+            error: function (error) {
+                error = error.responseJSON.error;
+                if (error.indexOf("Login") > 0) {
+                    function reload() {
+                        window.location.reload();
+                    }
+
+                    alert(error, reload);
+                } else {
+                    alert(error);
+                }
+            }
+        });
     });
 
     $("#cadastrar-vendedor").click(function () {
@@ -82,7 +104,16 @@
                 $(".content-main").html(data);
             },
             error: function (error) {
-                alert(error.responseJSON.error)
+                error = error.responseJSON.error;
+                if (error.indexOf("Login") > 0) {
+                    function reload() {
+                        window.location.reload();
+                    }
+
+                    alert(error, reload);
+                } else {
+                    alert(error);
+                }
             }
         });
     });
@@ -95,7 +126,16 @@
                 $(".content-main").html(data);
             },
             error: function (error) {
-                alert(error.responseJSON.error)
+                error = error.responseJSON.error;
+                if (error.indexOf("Login") > 0) {
+                    function reload() {
+                        window.location.reload();
+                    }
+
+                    alert(error, reload);
+                } else {
+                    alert(error);
+                }
             }
         });
     })

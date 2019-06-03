@@ -53,4 +53,11 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->post('/atualizarEmail', \App\Handler\Configuracao\AtualizarEmailHandler::class);
 
 
+    $app->post('/dashboard', \App\Handler\Dashboard\DashboardHandler::class);
+    $app->post('/valorvendedor', \App\Handler\Dashboard\ValorVendedorHandler::class);
+    $app->post('/valordia', \App\Handler\Dashboard\ValorDiaHandler::class);
+    $app->post('/comissaovendedor', \App\Handler\Dashboard\ComissaoVendedorHandler::class);
+    $app->post('/comissaodia', \App\Handler\Dashboard\ComissaoDiaHandler::class);
+
+
 };

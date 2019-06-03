@@ -1,0 +1,224 @@
+<div class="grid-form">
+    <div class="grid-form1">
+        <h3 id="forms-horizontal">Dashboard</h3>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="grid-1">
+                    <h4>Valor Total por Vendedor</h4>
+                    <canvas id="valorVendedor" height="300" width="600"></canvas>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="grid-1">
+                    <h4>Valor Total por Dia</h4>
+                    <canvas id="valorDia" height="300" width="600"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="grid-1">
+                    <h4>Comissão por Vendedor</h4>
+                    <canvas id="comissaoVendedor" height="300" width="600"></canvas>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="grid-1">
+                    <h4>Comissão por Dia</h4>
+                    <canvas id="comissaoDia" height="300" width="600"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        function graficoValorVendedor () {
+            let labels = [];
+            let valores = [];
+
+            function preparaDadoGrafico(element, index, array){
+                labels.push(element.referencia);
+                valores.push(parseFloat(element.valor));
+            }
+            function montarGrafico(id){
+                var barChartData = {
+                    labels : labels,
+                    datasets : [
+                        {
+                            fillColor : "#FBB03B",
+                            strokeColor : "#FBB03B",
+                            data : valores
+                        }
+                    ]
+                };
+                new Chart(document.getElementById(id).getContext("2d")).Bar(barChartData);
+            }
+
+            $.ajax({
+                type: "post",
+                url: "valorvendedor",
+                success: function (data) {
+                    data = data.data;
+                    data.forEach(preparaDadoGrafico);
+                    montarGrafico("valorVendedor");
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        }
+
+        function graficoValorDia () {
+            let labels = [];
+            let valores = [];
+
+            function preparaDadoGrafico(element, index, array){
+                labels.push(element.referencia);
+                valores.push(parseFloat(element.valor));
+            }
+            function montarGrafico(id){
+                var barChartData = {
+                    labels : labels,
+                    datasets : [
+                        {
+                            fillColor : "#FBB03B",
+                            strokeColor : "#FBB03B",
+                            data : valores
+                        }
+                    ]
+                };
+                new Chart(document.getElementById(id).getContext("2d")).Bar(barChartData);
+            }
+
+            $.ajax({
+                type: "post",
+                url: "valordia",
+                success: function (data) {
+                    data = data.data;
+                    data.forEach(preparaDadoGrafico);
+                    montarGrafico("valorDia");
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        }
+
+        function graficoComissaoVendedor () {
+            let labels = [];
+            let valores = [];
+
+            function preparaDadoGrafico(element, index, array){
+                labels.push(element.referencia);
+                valores.push(parseFloat(element.valor));
+            }
+            function montarGrafico(id){
+                var barChartData = {
+                    labels : labels,
+                    datasets : [
+                        {
+                            fillColor : "#FBB03B",
+                            strokeColor : "#FBB03B",
+                            data : valores
+                        }
+                    ]
+                };
+                new Chart(document.getElementById(id).getContext("2d")).Bar(barChartData);
+            }
+
+            $.ajax({
+                type: "post",
+                url: "comissaovendedor",
+                success: function (data) {
+                    data = data.data;
+                    data.forEach(preparaDadoGrafico);
+                    montarGrafico("comissaoVendedor");
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        }
+
+        function graficoComissaoDia () {
+            let labels = [];
+            let valores = [];
+
+            function preparaDadoGrafico(element, index, array){
+                labels.push(element.referencia);
+                valores.push(parseFloat(element.valor));
+            }
+            function montarGrafico(id){
+                var barChartData = {
+                    labels : labels,
+                    datasets : [
+                        {
+                            fillColor : "#FBB03B",
+                            strokeColor : "#FBB03B",
+                            data : valores
+                        }
+                    ]
+                };
+                new Chart(document.getElementById(id).getContext("2d")).Bar(barChartData);
+            }
+
+            $.ajax({
+                type: "post",
+                url: "comissaodia",
+                success: function (data) {
+                    data = data.data;
+                    data.forEach(preparaDadoGrafico);
+                    montarGrafico("comissaoDia");
+                },
+                error: function (error) {
+                    error = error.responseJSON.error;
+                    if (error.indexOf("Login") > 0) {
+                        function reload() {
+                            window.location.reload();
+                        }
+
+                        alert(error, reload);
+                    } else {
+                        alert(error);
+                    }
+                }
+            });
+        }
+
+        graficoValorVendedor();
+        graficoValorDia();
+        graficoComissaoVendedor();
+        graficoComissaoDia();
+    });
+</script>
